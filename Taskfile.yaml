@@ -1,0 +1,10 @@
+version: "3"
+
+tasks:
+  build:
+    cmds:
+      - go build -o bin/gotemp cmd/main.go
+
+  run:
+    cmds:
+      - task build && ./bin/gotemp
