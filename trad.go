@@ -6,16 +6,29 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/charmbracelet/log"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	apiKey, err := loadApiKey()
+	apiKey, err := getApiKey()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		apiKey, err := readInput("No API key found. Please enter your DeepL API key: ")
+		if err != nil {
+			log.Fatal("Error reading API key")
+			os.Exit(1)
+		}
+
+		err = saveApiKey(strings.TrimSpace(apiKey))
+		if err != nil {
+			log.Fatal("Error saving API key")
+			os.Exit(1)
+		}
+
+		log.Info("API key saved")
+		main()
 	}
 
 	if len(os.Args) <= 1 {
@@ -78,13 +91,33 @@ func printLastVersion() {
 	fmt.Printf("Latest version: %s\n", getLatestVersion())
 }
 
-func loadApiKey() (string, error) {
-	err := godotenv.Load()
+func getApiKey() (string, error) {
+	apiKeyPath := filepath.Join(os.TempDir(), "deepl-api-key")
+
+	data, err := os.ReadFile(apiKeyPath)
 	if err != nil {
 		return "", err
 	}
 
-	return os.Getenv("API_KEY"), nil
+	return string(data), nil
+}
+
+func readInput(message string) (string, error) {
+	var input string
+
+	fmt.Print(message)
+
+	_, err := fmt.Scanln(&input)
+	if err != nil {
+		return "", err
+	}
+
+	return input, nil
+}
+
+func saveApiKey(apiKey string) error {
+	apiKeyPath := filepath.Join(os.TempDir(), "deepl-api-key")
+	return os.WriteFile(apiKeyPath, []byte(apiKey), 0600)
 }
 
 func postTranslation(word string, country string, apiKey string) (translation string, err error) {

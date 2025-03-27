@@ -24,6 +24,16 @@ chmox +x trad
 
 Enjoy!
 
+## 📖 Usage
+
+You'll first need to create a Deepl account and get an API key. \
+
+Then run the program with any command to setup the api key.
+
+```bash
+trad hello
+```
+
 ## 🧑‍🤝‍🧑 Contributing
 
 To contribute, fork the repository and open a pull request detailling your changes.
