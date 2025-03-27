@@ -1,0 +1,35 @@
+version: 2
+
+builds:
+  - main: ./trad.go
+    binary: trad
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -mod=vendor
+
+release:
+  prerelease: auto
+
+universal_binaries:
+  - replace: true
+
+brews:
+  - name: trad
+    homepage: https://github.com/abroudoux/trad
+    repository:
+      owner: abroudoux
+      name: homebrew-tap
+    commit_author:
+      name: abroudoux
+      email: arthur.broudoux@gmail.com
+
+checksum:
+  name_template: "checksums.txt"
