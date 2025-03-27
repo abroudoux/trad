@@ -53,11 +53,11 @@ func main() {
 
 func printHelpManual() {
 	cmds := []string{
-		"trad",
+		"trad [country] [word]",
 		"trad [--help, -h]",
 	}
 	descs := []string{
-		"Run the program",
+		"Translate a word to a specific country (if not specified, it will be translated to French)",
 		"Show this help message",
 	}
 
@@ -65,6 +65,9 @@ func printHelpManual() {
 	for i, cmd := range cmds {
 		fmt.Printf("  %-20s %s\n", cmd, descs[i])
 	}
+
+	fmt.Println("\nNotes:")
+	fmt.Println("  - The country must be in ISO 3166-1 alpha-2 format (e.g. FR, DE, ES, etc.)")
 }
 
 func getLatestVersion() string {
