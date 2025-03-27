@@ -1,6 +1,6 @@
-# gotemp
+# trad
 
-🍤 Cause all go projects are the same
+🌍 A CLI tool to translate text
 
 ## Roadmap
 
